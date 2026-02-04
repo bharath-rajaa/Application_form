@@ -1,0 +1,1726 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>7S IQ Private Limited - Job Application</title>
+    <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.4.0/css/all.min.css">
+    <!-- jsPDF library for PDF generation -->
+    <script src="https://cdnjs.cloudflare.com/ajax/libs/jspdf/2.5.1/jspdf.umd.min.js"></script>
+    <script src="https://cdnjs.cloudflare.com/ajax/libs/jspdf-autotable/3.5.25/jspdf.plugin.autotable.min.js"></script>
+    <style>
+        * {
+            margin: 0;
+            padding: 0;
+            box-sizing: border-box;
+            font-family: 'Segoe UI', Tahoma, Geneva, Verdana, sans-serif;
+        }
+
+        body {
+            background-color: #f5f5f0;
+            color: #333;
+            line-height: 1.6;
+        }
+
+        .container {
+            max-width: 1200px;
+            margin: 0 auto;
+            padding: 20px;
+        }
+
+        .app-header {
+            background-color: #d4c8b0;
+            padding: 20px;
+            border-radius: 8px;
+            margin-bottom: 30px;
+            box-shadow: 0 4px 6px rgba(0, 0, 0, 0.1);
+            text-align: center;
+        }
+
+        .app-header h1 {
+            color: #5a4a3a;
+            font-size: 2.5rem;
+            margin-bottom: 10px;
+        }
+
+        .app-header p {
+            color: #7a6a5a;
+            font-size: 1.1rem;
+        }
+
+        .form-container {
+            display: flex;
+            flex-direction: column;
+            gap: 30px;
+        }
+
+        .form-page {
+            background-color: white;
+            border-radius: 8px;
+            padding: 30px;
+            box-shadow: 0 4px 12px rgba(0, 0, 0, 0.08);
+            display: none;
+        }
+
+        .form-page.active {
+            display: block;
+        }
+
+        .page-header {
+            color: #5a4a3a;
+            border-bottom: 2px solid #d4c8b0;
+            padding-bottom: 15px;
+            margin-bottom: 25px;
+            font-size: 1.8rem;
+        }
+
+        .form-section {
+            margin-bottom: 30px;
+        }
+
+        .section-title {
+            color: #7a6a5a;
+            font-size: 1.3rem;
+            margin-bottom: 15px;
+            padding-left: 10px;
+            border-left: 4px solid #d4c8b0;
+        }
+
+        .form-row {
+            display: flex;
+            flex-wrap: wrap;
+            gap: 20px;
+            margin-bottom: 20px;
+        }
+
+        .form-group {
+            flex: 1;
+            min-width: 250px;
+        }
+
+        .form-group label {
+            display: block;
+            margin-bottom: 8px;
+            color: #5a4a3a;
+            font-weight: 600;
+        }
+
+        .form-control {
+            width: 100%;
+            padding: 12px 15px;
+            border: 1px solid #d4c8b0;
+            border-radius: 4px;
+            font-size: 16px;
+            background-color: #f9f7f2;
+            transition: border 0.3s;
+        }
+
+        .form-control:focus {
+            outline: none;
+            border-color: #a8997c;
+            box-shadow: 0 0 0 2px rgba(168, 153, 124, 0.2);
+        }
+
+        .radio-group {
+            display: flex;
+            gap: 20px;
+            margin-top: 10px;
+        }
+
+        .radio-option {
+            display: flex;
+            align-items: center;
+            gap: 8px;
+        }
+
+        .radio-option input {
+            width: 18px;
+            height: 18px;
+        }
+
+        table {
+            width: 100%;
+            border-collapse: collapse;
+            margin-top: 10px;
+        }
+
+        th {
+            background-color: #e8e0d1;
+            color: #5a4a3a;
+            text-align: left;
+            padding: 12px 15px;
+            font-weight: 600;
+        }
+
+        td {
+            padding: 12px 15px;
+            border-bottom: 1px solid #e8e0d1;
+        }
+
+        input[type="text"], input[type="email"], input[type="tel"], input[type="date"], input[type="number"], select {
+            width: 100%;
+            padding: 10px;
+            border: 1px solid #d4c8b0;
+            border-radius: 4px;
+            background-color: #f9f7f2;
+        }
+
+        .action-buttons {
+            display: flex;
+            justify-content: space-between;
+            margin-top: 30px;
+            padding-top: 20px;
+            border-top: 1px solid #d4c8b0;
+        }
+
+        .btn {
+            padding: 12px 30px;
+            border: none;
+            border-radius: 4px;
+            font-size: 16px;
+            font-weight: 600;
+            cursor: pointer;
+            transition: all 0.3s;
+            display: flex;
+            align-items: center;
+            gap: 8px;
+        }
+
+        .btn-primary {
+            background-color: #a8997c;
+            color: white;
+        }
+
+        .btn-primary:hover {
+            background-color: #8f8066;
+        }
+
+        .btn-secondary {
+            background-color: #d4c8b0;
+            color: #5a4a3a;
+        }
+
+        .btn-secondary:hover {
+            background-color: #c4b8a0;
+        }
+
+        .btn-add {
+            background-color: #7a6a5a;
+            color: white;
+            padding: 8px 15px;
+            font-size: 14px;
+            margin-top: 10px;
+        }
+
+        .btn-add:hover {
+            background-color: #6a5a4a;
+        }
+
+        .btn-pdf {
+            background-color: #e74c3c;
+            color: white;
+        }
+
+        .btn-pdf:hover {
+            background-color: #c0392b;
+        }
+
+        .company-info {
+            background-color: #e8e0d1;
+            padding: 20px;
+            border-radius: 8px;
+            margin-top: 30px;
+            text-align: center;
+        }
+
+        .company-info p {
+            margin-bottom: 10px;
+            color: #5a4a3a;
+        }
+
+        .pagination {
+            display: flex;
+            justify-content: center;
+            gap: 10px;
+            margin-bottom: 20px;
+        }
+
+        .page-indicator {
+            width: 30px;
+            height: 30px;
+            border-radius: 50%;
+            background-color: #d4c8b0;
+            color: #5a4a3a;
+            display: flex;
+            align-items: center;
+            justify-content: center;
+            font-weight: 600;
+            cursor: pointer;
+            transition: all 0.3s;
+        }
+
+        .page-indicator.active {
+            background-color: #a8997c;
+            color: white;
+        }
+
+        .db-status {
+            padding: 15px;
+            border-radius: 4px;
+            margin-bottom: 20px;
+            text-align: center;
+            font-weight: 600;
+            display: none;
+        }
+
+        .db-status.success {
+            background-color: #d4edda;
+            color: #155724;
+            border: 1px solid #c3e6cb;
+            display: block;
+        }
+
+        .db-status.error {
+            background-color: #f8d7da;
+            color: #721c24;
+            border: 1px solid #f5c6cb;
+            display: block;
+        }
+
+        .database-panel {
+            background-color: white;
+            border-radius: 8px;
+            padding: 20px;
+            margin-top: 30px;
+            box-shadow: 0 4px 12px rgba(0, 0, 0, 0.08);
+        }
+
+        .database-panel h3 {
+            color: #5a4a3a;
+            margin-bottom: 20px;
+            font-size: 1.5rem;
+        }
+
+        .applications-list {
+            max-height: 400px;
+            overflow-y: auto;
+            margin-bottom: 20px;
+        }
+
+        .application-item {
+            border: 1px solid #e8e0d1;
+            border-radius: 4px;
+            padding: 15px;
+            margin-bottom: 10px;
+            background-color: #f9f7f2;
+            position: relative;
+        }
+
+        .application-item h4 {
+            color: #5a4a3a;
+            margin-bottom: 5px;
+        }
+
+        .application-item p {
+            color: #7a6a5a;
+            font-size: 14px;
+            margin-bottom: 5px;
+        }
+
+        .application-actions {
+            display: flex;
+            gap: 10px;
+            margin-top: 10px;
+        }
+
+        .action-btn {
+            padding: 6px 12px;
+            border: none;
+            border-radius: 3px;
+            font-size: 12px;
+            cursor: pointer;
+            display: flex;
+            align-items: center;
+            gap: 5px;
+        }
+
+        .view-btn {
+            background-color: #3498db;
+            color: white;
+        }
+
+        .delete-btn {
+            background-color: #e74c3c;
+            color: white;
+        }
+
+        .pdf-btn {
+            background-color: #27ae60;
+            color: white;
+        }
+
+        .application-id {
+            position: absolute;
+            top: 10px;
+            right: 10px;
+            font-size: 12px;
+            color: #999;
+        }
+
+        .pdf-controls {
+            background-color: #f8f9fa;
+            padding: 15px;
+            border-radius: 8px;
+            margin-top: 20px;
+            border: 1px solid #dee2e6;
+        }
+
+        .pdf-controls h4 {
+            margin-bottom: 10px;
+            color: #5a4a3a;
+        }
+
+        .control-group {
+            display: flex;
+            gap: 10px;
+            flex-wrap: wrap;
+            align-items: center;
+        }
+
+        .select-all {
+            margin-bottom: 10px;
+            display: flex;
+            align-items: center;
+            gap: 8px;
+        }
+
+        @media (max-width: 768px) {
+            .form-row {
+                flex-direction: column;
+                gap: 15px;
+            }
+            
+            .form-group {
+                min-width: 100%;
+            }
+            
+            .app-header h1 {
+                font-size: 2rem;
+            }
+            
+            .form-page {
+                padding: 20px;
+            }
+            
+            .application-actions {
+                flex-direction: column;
+            }
+        }
+    </style>
+</head>
+<body>
+    <div class="container">
+        <header class="app-header">
+            <h1>7S IQ PRIVATE LIMITED</h1>
+            <p>Application Form</p>
+        </header>
+
+        <div class="db-status" id="dbStatus"></div>
+
+        <div class="pagination">
+            <div class="page-indicator active" data-page="1">1</div>
+            <div class="page-indicator" data-page="2">2</div>
+        </div>
+
+        <div class="form-container">
+            <!-- Page 1 -->
+            <div class="form-page active" id="page1">
+                <h2 class="page-header">Application Form - Page 1</h2>
+                
+                <div class="form-section">
+                    <h3 class="section-title">Application Details</h3>
+                    <div class="form-row">
+                        <div class="form-group">
+                            <label for="applicationDate">Date of Application</label>
+                            <input type="date" id="applicationDate" class="form-control" value="<?php echo date('Y-m-d'); ?>">
+                        </div>
+                        <div class="form-group">
+                            <label for="position">Position</label>
+                            <input type="text" id="position" class="form-control" placeholder="Enter position">
+                        </div>
+                    </div>
+                    
+                    <div class="form-row">
+                        <div class="form-group">
+                            <label>Employment Type</label>
+                            <div class="radio-group">
+                                <div class="radio-option">
+                                    <input type="radio" id="fullTime" name="employmentType" value="Full-Time" checked>
+                                    <label for="fullTime">Full-Time</label>
+                                </div>
+                                <div class="radio-option">
+                                    <input type="radio" id="course" name="employmentType" value="Course">
+                                    <label for="course">Course</label>
+                                </div>
+                                <div class="radio-option">
+                                    <input type="radio" id="intern" name="employmentType" value="Intern">
+                                    <label for="intern">Intern</label>
+                                </div>
+                            </div>
+                        </div>
+                    </div>
+                </div>
+
+                <div class="form-section">
+                    <h3 class="section-title">Personal Information</h3>
+                    <div class="form-row">
+                        <div class="form-group">
+                            <label for="fullName">Full Name</label>
+                            <input type="text" id="fullName" class="form-control" placeholder="Enter full name">
+                        </div>
+                        <div class="form-group">
+                            <label for="nationality">Nationality</label>
+                            <input type="text" id="nationality" class="form-control" placeholder="Enter nationality">
+                        </div>
+                    </div>
+                    
+                    <div class="form-row">
+                        <div class="form-group">
+                            <label for="address">Address</label>
+                            <input type="text" id="address" class="form-control" placeholder="Enter full address">
+                        </div>
+                    </div>
+                    
+                    <div class="form-row">
+                        <div class="form-group">
+                            <label for="phone">Phone</label>
+                            <input type="tel" id="phone" class="form-control" placeholder="Enter phone number">
+                        </div>
+                        <div class="form-group">
+                            <label for="email">Email</label>
+                            <input type="email" id="email" class="form-control" placeholder="Enter email address">
+                        </div>
+                        <div class="form-group">
+                            <label for="dob">Date of Birth</label>
+                            <input type="date" id="dob" class="form-control">
+                        </div>
+                    </div>
+                    
+                    <div class="form-row">
+                        <div class="form-group">
+                            <label for="bloodGroup">Blood Group</label>
+                            <select id="bloodGroup" class="form-control">
+                                <option value="">Select blood group</option>
+                                <option value="A+">A+</option>
+                                <option value="A-">A-</option>
+                                <option value="B+">B+</option>
+                                <option value="B-">B-</option>
+                                <option value="O+">O+</option>
+                                <option value="O-">O-</option>
+                                <option value="AB+">AB+</option>
+                                <option value="AB-">AB-</option>
+                            </select>
+                        </div>
+                        <div class="form-group">
+                            <label for="yearsOfWork">Years of Work Experience</label>
+                            <input type="number" id="yearsOfWork" class="form-control" placeholder="Enter years of work">
+                        </div>
+                        <div class="form-group">
+                            <label>Marital Status</label>
+                            <div class="radio-group">
+                                <div class="radio-option">
+                                    <input type="radio" id="single" name="maritalStatus" value="Single" checked>
+                                    <label for="single">Single</label>
+                                </div>
+                                <div class="radio-option">
+                                    <input type="radio" id="married" name="maritalStatus" value="Married">
+                                    <label for="married">Married</label>
+                                </div>
+                            </div>
+                        </div>
+                    </div>
+                </div>
+
+                <div class="form-section">
+                    <h3 class="section-title">Educational Background</h3>
+                    <table id="educationTable">
+                        <thead>
+                            <tr>
+                                <th>Degree / Course</th>
+                                <th>University / Institute</th>
+                                <th>Year of Graduation</th>
+                                <th>Grade</th>
+                                <th>City</th>
+                            </tr>
+                        </thead>
+                        <tbody id="educationBody">
+                            <tr>
+                                <td><input type="text" class="form-control" placeholder="Degree / Course"></td>
+                                <td><input type="text" class="form-control" placeholder="University / Institute"></td>
+                                <td><input type="text" class="form-control" placeholder="Year"></td>
+                                <td><input type="text" class="form-control" placeholder="Grade"></td>
+                                <td><input type="text" class="form-control" placeholder="City"></td>
+                            </tr>
+                        </tbody>
+                    </table>
+                    <button type="button" class="btn btn-add" id="addEducation">
+                        <i class="fas fa-plus"></i> Add Education
+                    </button>
+                </div>
+
+                <div class="form-section">
+                    <h3 class="section-title">Employment History</h3>
+                    <table id="employmentTable">
+                        <thead>
+                            <tr>
+                                <th>Company</th>
+                                <th>Position</th>
+                                <th>Year</th>
+                                <th>Reason for Leaving</th>
+                            </tr>
+                        </thead>
+                        <tbody id="employmentBody">
+                            <tr>
+                                <td><input type="text" class="form-control" placeholder="Company"></td>
+                                <td><input type="text" class="form-control" placeholder="Position"></td>
+                                <td><input type="text" class="form-control" placeholder="Year"></td>
+                                <td><input type="text" class="form-control" placeholder="Reason for leaving"></td>
+                            </tr>
+                        </tbody>
+                    </table>
+                    <button type="button" class="btn btn-add" id="addEmployment">
+                        <i class="fas fa-plus"></i> Add Employment
+                    </button>
+                </div>
+
+                <div class="form-section">
+                    <h3 class="section-title">Skills & Training</h3>
+                    <table id="skillsTable">
+                        <thead>
+                            <tr>
+                                <th>Skill & Training Achievement(s)</th>
+                                <th>Level</th>
+                                <th>Year</th>
+                                <th>Institute</th>
+                            </tr>
+                        </thead>
+                        <tbody id="skillsBody">
+                            <tr>
+                                <td><input type="text" class="form-control" placeholder="Skill / Training"></td>
+                                <td><input type="text" class="form-control" placeholder="Level"></td>
+                                <td><input type="text" class="form-control" placeholder="Year"></td>
+                                <td><input type="text" class="form-control" placeholder="Institute"></td>
+                            </tr>
+                        </tbody>
+                    </table>
+                    <button type="button" class="btn btn-add" id="addSkill">
+                        <i class="fas fa-plus"></i> Add Skill / Training
+                    </button>
+                </div>
+
+                <div class="action-buttons">
+                    <div></div> <!-- Empty div for spacing -->
+                    <button type="button" class="btn btn-primary" id="nextPage">
+                        Next Page <i class="fas fa-arrow-right"></i>
+                    </button>
+                </div>
+            </div>
+
+            <!-- Page 2 -->
+            <div class="form-page" id="page2">
+                <h2 class="page-header">Application Form - Page 2</h2>
+                
+                <div class="form-section">
+                    <h3 class="section-title">Family Details</h3>
+                    <table id="familyTable">
+                        <thead>
+                            <tr>
+                                <th>Name</th>
+                                <th>Relationship</th>
+                                <th>Occupation</th>
+                            </tr>
+                        </thead>
+                        <tbody id="familyBody">
+                            <tr>
+                                <td><input type="text" class="form-control" placeholder="Name"></td>
+                                <td><input type="text" class="form-control" placeholder="Relationship"></td>
+                                <td><input type="text" class="form-control" placeholder="Occupation"></td>
+                            </tr>
+                        </tbody>
+                    </table>
+                    <button type="button" class="btn btn-add" id="addFamily">
+                        <i class="fas fa-plus"></i> Add Family Member
+                    </button>
+                </div>
+
+                <div class="form-section">
+                    <h3 class="section-title">Emergency Contact</h3>
+                    <table id="emergencyTable">
+                        <thead>
+                            <tr>
+                                <th>Name</th>
+                                <th>Relationship</th>
+                                <th>Occupation</th>
+                                <th>Qualification</th>
+                                <th>City</th>
+                            </tr>
+                        </thead>
+                        <tbody id="emergencyBody">
+                            <tr>
+                                <td><input type="text" class="form-control" placeholder="Name"></td>
+                                <td><input type="text" class="form-control" placeholder="Relationship"></td>
+                                <td><input type="text" class="form-control" placeholder="Occupation"></td>
+                                <td><input type="text" class="form-control" placeholder="Qualification"></td>
+                                <td><input type="text" class="form-control" placeholder="City"></td>
+                            </tr>
+                        </tbody>
+                    </table>
+                    <button type="button" class="btn btn-add" id="addEmergency">
+                        <i class="fas fa-plus"></i> Add Emergency Contact
+                    </button>
+                </div>
+
+                <div class="form-section">
+                    <h3 class="section-title">Joining Details</h3>
+                    <div class="form-row">
+                        <div class="form-group">
+                            <label for="joiningDate">Joining Date</label>
+                            <input type="date" id="joiningDate" class="form-control">
+                        </div>
+                        <div class="form-group">
+                            <label for="fees">Fees</label>
+                            <input type="number" id="fees" class="form-control" placeholder="Enter fees">
+                        </div>
+                    </div>
+                    
+                    <div class="form-row">
+                        <div class="form-group">
+                            <label for="firstInstallment">First Installment Date</label>
+                            <input type="date" id="firstInstallment" class="form-control">
+                        </div>
+                        <div class="form-group">
+                            <label for="secondInstallment">Second Installment Date</label>
+                            <input type="date" id="secondInstallment" class="form-control">
+                        </div>
+                        <div class="form-group">
+                            <label for="thirdInstallment">Third Installment Date</label>
+                            <input type="date" id="thirdInstallment" class="form-control">
+                        </div>
+                    </div>
+                    
+                    <div class="form-row">
+                        <div class="form-group">
+                            <label for="companyName">Company Name</label>
+                            <input type="text" id="companyName" class="form-control" value="7S IQ PRIVATE LIMITED" readonly>
+                        </div>
+                        <div class="form-group">
+                            <label for="receivingPerson">Receiving Person</label>
+                            <input type="text" id="receivingPerson" class="form-control" placeholder="Name of receiving person">
+                        </div>
+                    </div>
+                    
+                    <div class="form-row">
+                        <div class="form-group">
+                            <label for="receivingSignature">Receiving Person Signature</label>
+                            <input type="text" id="receivingSignature" class="form-control" placeholder="Signature">
+                        </div>
+                        <div class="form-group">
+                            <label for="hrSignature">HR Name & Signature</label>
+                            <input type="text" id="hrSignature" class="form-control" placeholder="HR name and signature">
+                        </div>
+                    </div>
+                </div>
+
+                <div class="action-buttons">
+                    <button type="button" class="btn btn-secondary" id="prevPage">
+                        <i class="fas fa-arrow-left"></i> Previous Page
+                    </button>
+                    <button type="button" class="btn btn-primary" id="submitForm">
+                        <i class="fas fa-paper-plane"></i> Submit Application
+                    </button>
+                </div>
+            </div>
+        </div>
+
+        <div class="company-info">
+            <p><strong>Attach your resume and portfolio to this job application form.</strong></p>
+            <p>Send it via email or hand it over to the Human Resource Office at:</p>
+            <p>No 20, 6<sup>th</sup> school street, jafferkhanpet, chennai-600083</p>
+            <p>Phone: +91 7397593704 | Email: info@7siq.com | Website: www.7siq.com</p>
+        </div>
+
+        <!-- Database Panel for viewing stored applications -->
+        <div class="database-panel">
+            <h3><i class="fas fa-database"></i> Database - Stored Applications (Admin Panel)</h3>
+            
+            <!-- PDF Export Controls -->
+            <div class="pdf-controls">
+                <h4><i class="fas fa-file-pdf"></i> PDF Export Options</h4>
+                <div class="select-all">
+                    <input type="checkbox" id="selectAllApps">
+                    <label for="selectAllApps">Select All Applications</label>
+                </div>
+                <div class="control-group">
+                    <button type="button" class="action-btn pdf-btn" id="exportSelectedPDF">
+                        <i class="fas fa-file-export"></i> Export Selected as PDF
+                    </button>
+                    <button type="button" class="action-btn pdf-btn" id="exportSinglePDF">
+                        <i class="fas fa-file-pdf"></i> Export Single Application
+                    </button>
+                    <button type="button" class="action-btn pdf-btn" id="exportAllPDF">
+                        <i class="fas fa-file-archive"></i> Export All as PDF
+                    </button>
+                    <button type="button" class="action-btn view-btn" id="viewApplication">
+                        <i class="fas fa-eye"></i> View Details
+                    </button>
+                </div>
+            </div>
+            
+            <div class="applications-list" id="applicationsList">
+                <!-- Applications will be loaded here -->
+            </div>
+            
+            <div class="action-buttons">
+                <button type="button" class="btn btn-secondary" id="refreshDb">
+                    <i class="fas fa-sync-alt"></i> Refresh Database View
+                </button>
+                <button type="button" class="btn btn-pdf" id="exportSummaryPDF">
+                    <i class="fas fa-chart-bar"></i> Export Summary Report
+                </button>
+                <button type="button" class="btn btn-secondary" id="clearDb">
+                    <i class="fas fa-trash"></i> Clear All Applications
+                </button>
+            </div>
+        </div>
+    </div>
+
+    <script>
+        // Database simulation using localStorage
+        const DB_NAME = 'jobApplicationsDB';
+        
+        // Initialize database if it doesn't exist
+        function initDatabase() {
+            if (!localStorage.getItem(DB_NAME)) {
+                localStorage.setItem(DB_NAME, JSON.stringify([]));
+            }
+        }
+        
+        // Save application to database
+        function saveApplication(applicationData) {
+            try {
+                const db = JSON.parse(localStorage.getItem(DB_NAME) || '[]');
+                // Add unique ID and timestamp
+                applicationData.id = Date.now();
+                applicationData.submissionDate = new Date().toISOString();
+                db.push(applicationData);
+                localStorage.setItem(DB_NAME, JSON.stringify(db));
+                return true;
+            } catch (error) {
+                console.error('Error saving application:', error);
+                return false;
+            }
+        }
+        
+        // Get all applications from database
+        function getAllApplications() {
+            try {
+                return JSON.parse(localStorage.getItem(DB_NAME) || '[]');
+            } catch (error) {
+                console.error('Error retrieving applications:', error);
+                return [];
+            }
+        }
+        
+        // Get application by ID
+        function getApplicationById(id) {
+            const applications = getAllApplications();
+            return applications.find(app => app.id == id);
+        }
+        
+        // Delete application by ID
+        function deleteApplicationById(id) {
+            try {
+                let applications = getAllApplications();
+                applications = applications.filter(app => app.id != id);
+                localStorage.setItem(DB_NAME, JSON.stringify(applications));
+                return true;
+            } catch (error) {
+                console.error('Error deleting application:', error);
+                return false;
+            }
+        }
+        
+        // Clear all applications from database
+        function clearDatabase() {
+            localStorage.setItem(DB_NAME, JSON.stringify([]));
+        }
+        
+        // Display database status message
+        function showDbStatus(message, isSuccess = true) {
+            const statusEl = document.getElementById('dbStatus');
+            statusEl.textContent = message;
+            statusEl.className = `db-status ${isSuccess ? 'success' : 'error'}`;
+            
+            setTimeout(() => {
+                statusEl.className = 'db-status';
+            }, 5000);
+        }
+        
+        // Render applications list with checkboxes
+        function renderApplicationsList() {
+            const applications = getAllApplications();
+            const listContainer = document.getElementById('applicationsList');
+            
+            if (applications.length === 0) {
+                listContainer.innerHTML = '<p class="application-item">No applications stored yet.</p>';
+                return;
+            }
+            
+            listContainer.innerHTML = '';
+            applications.forEach((app, index) => {
+                const appEl = document.createElement('div');
+                appEl.className = 'application-item';
+                appEl.setAttribute('data-id', app.id);
+                appEl.innerHTML = `
+                    <div class="application-id">ID: ${app.id}</div>
+                    <h4>${app.fullName || 'Unknown'} - ${app.position || 'No position specified'}</h4>
+                    <p><strong>Email:</strong> ${app.email || 'Not provided'}</p>
+                    <p><strong>Phone:</strong> ${app.phone || 'Not provided'}</p>
+                    <p><strong>Applied for:</strong> ${app.position || 'Not specified'} (${app.employmentType || 'Not specified'})</p>
+                    <p><strong>Submitted:</strong> ${new Date(app.submissionDate).toLocaleDateString()}</p>
+                    <div class="application-actions">
+                        <input type="checkbox" class="app-checkbox" id="app_${app.id}" value="${app.id}">
+                        <label for="app_${app.id}">Select</label>
+                        <button class="action-btn view-btn" onclick="viewApplicationDetails(${app.id})">
+                            <i class="fas fa-eye"></i> View
+                        </button>
+                        <button class="action-btn pdf-btn" onclick="generateSinglePDF(${app.id})">
+                            <i class="fas fa-file-pdf"></i> PDF
+                        </button>
+                        <button class="action-btn delete-btn" onclick="deleteApplication(${app.id})">
+                            <i class="fas fa-trash"></i> Delete
+                        </button>
+                    </div>
+                `;
+                listContainer.appendChild(appEl);
+            });
+        }
+        
+        // Get selected application IDs
+        function getSelectedApplicationIds() {
+            const checkboxes = document.querySelectorAll('.app-checkbox:checked');
+            return Array.from(checkboxes).map(cb => cb.value);
+        }
+        
+        // View application details
+        function viewApplicationDetails(id) {
+            const app = getApplicationById(id);
+            if (!app) {
+                showDbStatus('Application not found', false);
+                return;
+            }
+            
+            // Create a detailed view modal
+            const modal = document.createElement('div');
+            modal.style.cssText = `
+                position: fixed;
+                top: 0;
+                left: 0;
+                width: 100%;
+                height: 100%;
+                background: rgba(0,0,0,0.8);
+                z-index: 1000;
+                display: flex;
+                justify-content: center;
+                align-items: center;
+                padding: 20px;
+            `;
+            
+            const modalContent = document.createElement('div');
+            modalContent.style.cssText = `
+                background: white;
+                padding: 30px;
+                border-radius: 10px;
+                max-width: 800px;
+                width: 100%;
+                max-height: 90vh;
+                overflow-y: auto;
+            `;
+            
+            // Format the application data for display
+            let content = `<h2 style="color: #5a4a3a; margin-bottom: 20px;">Application Details</h2>`;
+            content += `<p><strong>Application ID:</strong> ${app.id}</p>`;
+            content += `<p><strong>Submission Date:</strong> ${new Date(app.submissionDate).toLocaleString()}</p>`;
+            content += `<hr style="margin: 15px 0;">`;
+            
+            content += `<h3 style="color: #7a6a5a;">Personal Information</h3>`;
+            content += `<p><strong>Name:</strong> ${app.fullName || 'N/A'}</p>`;
+            content += `<p><strong>Email:</strong> ${app.email || 'N/A'}</p>`;
+            content += `<p><strong>Phone:</strong> ${app.phone || 'N/A'}</p>`;
+            content += `<p><strong>Address:</strong> ${app.address || 'N/A'}</p>`;
+            content += `<p><strong>Date of Birth:</strong> ${app.dob || 'N/A'}</p>`;
+            content += `<p><strong>Nationality:</strong> ${app.nationality || 'N/A'}</p>`;
+            content += `<p><strong>Blood Group:</strong> ${app.bloodGroup || 'N/A'}</p>`;
+            content += `<p><strong>Years of Experience:</strong> ${app.yearsOfWork || '0'}</p>`;
+            content += `<p><strong>Marital Status:</strong> ${app.maritalStatus || 'N/A'}</p>`;
+            
+            content += `<hr style="margin: 15px 0;">`;
+            content += `<h3 style="color: #7a6a5a;">Position Details</h3>`;
+            content += `<p><strong>Position:</strong> ${app.position || 'N/A'}</p>`;
+            content += `<p><strong>Employment Type:</strong> ${app.employmentType || 'N/A'}</p>`;
+            content += `<p><strong>Application Date:</strong> ${app.applicationDate || 'N/A'}</p>`;
+            
+            // Education
+            if (app.education && app.education.length > 0) {
+                content += `<hr style="margin: 15px 0;">`;
+                content += `<h3 style="color: #7a6a5a;">Educational Background</h3>`;
+                app.education.forEach((edu, index) => {
+                    content += `<p><strong>${index + 1}.</strong> ${edu.degree || ''} - ${edu.university || ''} (${edu.year || ''}) - Grade: ${edu.grade || ''}, ${edu.city || ''}</p>`;
+                });
+            }
+            
+            // Employment
+            if (app.employment && app.employment.length > 0) {
+                content += `<hr style="margin: 15px 0;">`;
+                content += `<h3 style="color: #7a6a5a;">Employment History</h3>`;
+                app.employment.forEach((emp, index) => {
+                    content += `<p><strong>${index + 1}.</strong> ${emp.position || ''} at ${emp.company || ''} (${emp.year || ''}) - Reason for leaving: ${emp.reasonForLeaving || ''}</p>`;
+                });
+            }
+            
+            // Joining Details
+            content += `<hr style="margin: 15px 0;">`;
+            content += `<h3 style="color: #7a6a5a;">Joining Details</h3>`;
+            content += `<p><strong>Joining Date:</strong> ${app.joiningDate || 'N/A'}</p>`;
+            content += `<p><strong>Fees:</strong> ${app.fees || 'N/A'}</p>`;
+            content += `<p><strong>Receiving Person:</strong> ${app.receivingPerson || 'N/A'}</p>`;
+            
+            modalContent.innerHTML = content;
+            
+            // Add close button
+            const closeBtn = document.createElement('button');
+            closeBtn.textContent = 'Close';
+            closeBtn.style.cssText = `
+                background: #a8997c;
+                color: white;
+                border: none;
+                padding: 10px 20px;
+                border-radius: 5px;
+                cursor: pointer;
+                margin-top: 20px;
+                float: right;
+            `;
+            closeBtn.onclick = () => document.body.removeChild(modal);
+            
+            modalContent.appendChild(closeBtn);
+            modal.appendChild(modalContent);
+            document.body.appendChild(modal);
+            
+            // Close modal when clicking outside
+            modal.onclick = (e) => {
+                if (e.target === modal) {
+                    document.body.removeChild(modal);
+                }
+            };
+        }
+        
+        // Generate PDF for single application
+        function generateSinglePDF(appId) {
+            const app = getApplicationById(appId);
+            if (!app) {
+                showDbStatus('Application not found', false);
+                return;
+            }
+            
+            const { jsPDF } = window.jspdf;
+            const doc = new jsPDF('p', 'mm', 'a4');
+            const pageWidth = doc.internal.pageSize.getWidth();
+            const margin = 15;
+            
+            // Title
+            doc.setFontSize(20);
+            doc.setTextColor(90, 74, 58); // Dark brown color
+            doc.text('7S IQ PRIVATE LIMITED', pageWidth / 2, margin, { align: 'center' });
+            
+            doc.setFontSize(16);
+            doc.text('Job Application Form', pageWidth / 2, margin + 10, { align: 'center' });
+            
+            doc.setFontSize(12);
+            doc.setTextColor(100, 100, 100);
+            doc.text(`Application ID: ${app.id}`, pageWidth / 2, margin + 18, { align: 'center' });
+            doc.text(`Submitted: ${new Date(app.submissionDate).toLocaleDateString()}`, pageWidth / 2, margin + 24, { align: 'center' });
+            
+            let yPos = margin + 35;
+            
+            // Personal Information
+            doc.setFontSize(14);
+            doc.setTextColor(90, 74, 58);
+            doc.text('Personal Information', margin, yPos);
+            yPos += 10;
+            
+            doc.setFontSize(10);
+            doc.setTextColor(0, 0, 0);
+            
+            // Create table data for personal info
+            const personalInfo = [
+                ['Full Name', app.fullName || 'N/A'],
+                ['Email', app.email || 'N/A'],
+                ['Phone', app.phone || 'N/A'],
+                ['Address', app.address || 'N/A'],
+                ['Date of Birth', app.dob || 'N/A'],
+                ['Nationality', app.nationality || 'N/A'],
+                ['Blood Group', app.bloodGroup || 'N/A'],
+                ['Years of Experience', app.yearsOfWork || '0'],
+                ['Marital Status', app.maritalStatus || 'N/A']
+            ];
+            
+            doc.autoTable({
+                startY: yPos,
+                head: [['Field', 'Details']],
+                body: personalInfo,
+                margin: { left: margin, right: margin },
+                theme: 'grid',
+                headStyles: { fillColor: [168, 153, 124] }, // Brown color
+                styles: { fontSize: 9 }
+            });
+            
+            yPos = doc.lastAutoTable.finalY + 10;
+            
+            // Position Details
+            doc.setFontSize(14);
+            doc.setTextColor(90, 74, 58);
+            doc.text('Position Details', margin, yPos);
+            yPos += 10;
+            
+            doc.setFontSize(10);
+            const positionInfo = [
+                ['Position', app.position || 'N/A'],
+                ['Employment Type', app.employmentType || 'N/A'],
+                ['Application Date', app.applicationDate || 'N/A']
+            ];
+            
+            doc.autoTable({
+                startY: yPos,
+                head: [['Field', 'Details']],
+                body: positionInfo,
+                margin: { left: margin, right: margin },
+                theme: 'grid',
+                headStyles: { fillColor: [168, 153, 124] },
+                styles: { fontSize: 9 }
+            });
+            
+            yPos = doc.lastAutoTable.finalY + 10;
+            
+            // Education
+            if (app.education && app.education.length > 0) {
+                doc.setFontSize(14);
+                doc.setTextColor(90, 74, 58);
+                doc.text('Educational Background', margin, yPos);
+                yPos += 10;
+                
+                const eduData = app.education.map(edu => [
+                    edu.degree || '',
+                    edu.university || '',
+                    edu.year || '',
+                    edu.grade || '',
+                    edu.city || ''
+                ]);
+                
+                doc.autoTable({
+                    startY: yPos,
+                    head: [['Degree/Course', 'University/Institute', 'Year', 'Grade', 'City']],
+                    body: eduData,
+                    margin: { left: margin, right: margin },
+                    theme: 'grid',
+                    headStyles: { fillColor: [168, 153, 124] },
+                    styles: { fontSize: 8 }
+                });
+                
+                yPos = doc.lastAutoTable.finalY + 10;
+            }
+            
+            // Employment History
+            if (app.employment && app.employment.length > 0) {
+                doc.setFontSize(14);
+                doc.setTextColor(90, 74, 58);
+                doc.text('Employment History', margin, yPos);
+                yPos += 10;
+                
+                const empData = app.employment.map(emp => [
+                    emp.company || '',
+                    emp.position || '',
+                    emp.year || '',
+                    emp.reasonForLeaving || ''
+                ]);
+                
+                doc.autoTable({
+                    startY: yPos,
+                    head: [['Company', 'Position', 'Year', 'Reason for Leaving']],
+                    body: empData,
+                    margin: { left: margin, right: margin },
+                    theme: 'grid',
+                    headStyles: { fillColor: [168, 153, 124] },
+                    styles: { fontSize: 8 }
+                });
+                
+                yPos = doc.lastAutoTable.finalY + 10;
+            }
+            
+            // Footer
+            doc.setFontSize(8);
+            doc.setTextColor(100, 100, 100);
+            doc.text('Generated by 7S IQ Private Limited Job Application System', pageWidth / 2, doc.internal.pageSize.getHeight() - 10, { align: 'center' });
+            
+            // Save the PDF
+            doc.save(`Application_${app.fullName || 'Unknown'}_${app.id}.pdf`);
+            
+            showDbStatus(`PDF generated for ${app.fullName || 'application'}`, true);
+        }
+        
+        // Generate PDF for selected applications
+        function generateSelectedPDF() {
+            const selectedIds = getSelectedApplicationIds();
+            
+            if (selectedIds.length === 0) {
+                showDbStatus('Please select at least one application', false);
+                return;
+            }
+            
+            if (selectedIds.length === 1) {
+                // Single application - use the detailed PDF
+                generateSinglePDF(selectedIds[0]);
+                return;
+            }
+            
+            // Multiple applications - create a summary PDF
+            const { jsPDF } = window.jspdf;
+            const doc = new jsPDF('p', 'mm', 'a4');
+            const pageWidth = doc.internal.pageSize.getWidth();
+            const margin = 15;
+            
+            // Title
+            doc.setFontSize(20);
+            doc.setTextColor(90, 74, 58);
+            doc.text('7S IQ PRIVATE LIMITED', pageWidth / 2, margin, { align: 'center' });
+            
+            doc.setFontSize(16);
+            doc.text('Applications Summary Report', pageWidth / 2, margin + 10, { align: 'center' });
+            
+            doc.setFontSize(12);
+            doc.setTextColor(100, 100, 100);
+            doc.text(`Generated: ${new Date().toLocaleDateString()}`, pageWidth / 2, margin + 20, { align: 'center' });
+            doc.text(`Total Applications: ${selectedIds.length}`, pageWidth / 2, margin + 26, { align: 'center' });
+            
+            let yPos = margin + 40;
+            
+            // Get all selected applications
+            const applications = getAllApplications().filter(app => selectedIds.includes(app.id.toString()));
+            
+            // Create summary table
+            const summaryData = applications.map((app, index) => [
+                index + 1,
+                app.fullName || 'Unknown',
+                app.email || 'N/A',
+                app.phone || 'N/A',
+                app.position || 'N/A',
+                app.employmentType || 'N/A',
+                new Date(app.submissionDate).toLocaleDateString()
+            ]);
+            
+            doc.autoTable({
+                startY: yPos,
+                head: [['#', 'Name', 'Email', 'Phone', 'Position', 'Type', 'Submitted']],
+                body: summaryData,
+                margin: { left: margin, right: margin },
+                theme: 'grid',
+                headStyles: { fillColor: [168, 153, 124] },
+                styles: { fontSize: 8 },
+                columnStyles: {
+                    0: { cellWidth: 10 },
+                    1: { cellWidth: 30 },
+                    2: { cellWidth: 40 },
+                    3: { cellWidth: 30 },
+                    4: { cellWidth: 30 },
+                    5: { cellWidth: 20 },
+                    6: { cellWidth: 25 }
+                }
+            });
+            
+            // Footer
+            doc.setFontSize(8);
+            doc.setTextColor(100, 100, 100);
+            doc.text('Generated by 7S IQ Private Limited Job Application System', pageWidth / 2, doc.internal.pageSize.getHeight() - 10, { align: 'center' });
+            
+            // Save the PDF
+            doc.save(`Applications_Summary_${new Date().toISOString().slice(0, 10)}.pdf`);
+            
+            showDbStatus(`PDF generated for ${selectedIds.length} application(s)`, true);
+        }
+        
+        // Generate PDF for all applications
+        function generateAllPDF() {
+            const applications = getAllApplications();
+            
+            if (applications.length === 0) {
+                showDbStatus('No applications to export', false);
+                return;
+            }
+            
+            const { jsPDF } = window.jspdf;
+            const doc = new jsPDF('p', 'mm', 'a4');
+            const pageWidth = doc.internal.pageSize.getWidth();
+            const margin = 15;
+            
+            // Title
+            doc.setFontSize(20);
+            doc.setTextColor(90, 74, 58);
+            doc.text('7S IQ PRIVATE LIMITED', pageWidth / 2, margin, { align: 'center' });
+            
+            doc.setFontSize(16);
+            doc.text('Complete Applications Report', pageWidth / 2, margin + 10, { align: 'center' });
+            
+            doc.setFontSize(12);
+            doc.setTextColor(100, 100, 100);
+            doc.text(`Generated: ${new Date().toLocaleDateString()}`, pageWidth / 2, margin + 20, { align: 'center' });
+            doc.text(`Total Applications: ${applications.length}`, pageWidth / 2, margin + 26, { align: 'center' });
+            
+            let yPos = margin + 40;
+            
+            // Create summary table
+            const summaryData = applications.map((app, index) => [
+                index + 1,
+                app.fullName || 'Unknown',
+                app.email || 'N/A',
+                app.phone || 'N/A',
+                app.position || 'N/A',
+                app.employmentType || 'N/A',
+                new Date(app.submissionDate).toLocaleDateString()
+            ]);
+            
+            doc.autoTable({
+                startY: yPos,
+                head: [['#', 'Name', 'Email', 'Phone', 'Position', 'Type', 'Submitted']],
+                body: summaryData,
+                margin: { left: margin, right: margin },
+                theme: 'grid',
+                headStyles: { fillColor: [168, 153, 124] },
+                styles: { fontSize: 8 },
+                columnStyles: {
+                    0: { cellWidth: 10 },
+                    1: { cellWidth: 30 },
+                    2: { cellWidth: 40 },
+                    3: { cellWidth: 30 },
+                    4: { cellWidth: 30 },
+                    5: { cellWidth: 20 },
+                    6: { cellWidth: 25 }
+                }
+            });
+            
+            // Footer
+            doc.setFontSize(8);
+            doc.setTextColor(100, 100, 100);
+            doc.text('Generated by 7S IQ Private Limited Job Application System', pageWidth / 2, doc.internal.pageSize.getHeight() - 10, { align: 'center' });
+            
+            // Save the PDF
+            doc.save(`All_Applications_${new Date().toISOString().slice(0, 10)}.pdf`);
+            
+            showDbStatus(`PDF generated for all ${applications.length} application(s)`, true);
+        }
+        
+        // Generate summary report PDF
+        function generateSummaryReport() {
+            const applications = getAllApplications();
+            
+            if (applications.length === 0) {
+                showDbStatus('No applications to generate report', false);
+                return;
+            }
+            
+            const { jsPDF } = window.jspdf;
+            const doc = new jsPDF('p', 'mm', 'a4');
+            const pageWidth = doc.internal.pageSize.getWidth();
+            const margin = 15;
+            
+            // Title
+            doc.setFontSize(20);
+            doc.setTextColor(90, 74, 58);
+            doc.text('7S IQ PRIVATE LIMITED', pageWidth / 2, margin, { align: 'center' });
+            
+            doc.setFontSize(16);
+            doc.text('Analytics Summary Report', pageWidth / 2, margin + 10, { align: 'center' });
+            
+            doc.setFontSize(12);
+            doc.setTextColor(100, 100, 100);
+            doc.text(`Generated: ${new Date().toLocaleDateString()}`, pageWidth / 2, margin + 20, { align: 'center' });
+            
+            let yPos = margin + 40;
+            
+            // Statistics
+            doc.setFontSize(14);
+            doc.setTextColor(90, 74, 58);
+            doc.text('Application Statistics', margin, yPos);
+            yPos += 10;
+            
+            // Count by employment type
+            const typeCount = {};
+            const positionCount = {};
+            
+            applications.forEach(app => {
+                const type = app.employmentType || 'Unknown';
+                const position = app.position || 'Unknown';
+                
+                typeCount[type] = (typeCount[type] || 0) + 1;
+                positionCount[position] = (positionCount[position] || 0) + 1;
+            });
+            
+            doc.setFontSize(10);
+            doc.setTextColor(0, 0, 0);
+            
+            // Employment Type breakdown
+            const typeData = Object.entries(typeCount).map(([type, count]) => [type, count.toString()]);
+            
+            doc.autoTable({
+                startY: yPos,
+                head: [['Employment Type', 'Count']],
+                body: typeData,
+                margin: { left: margin, right: margin },
+                theme: 'grid',
+                headStyles: { fillColor: [168, 153, 124] },
+                styles: { fontSize: 9 }
+            });
+            
+            yPos = doc.lastAutoTable.finalY + 10;
+            
+            // Top Positions
+            const topPositions = Object.entries(positionCount)
+                .sort((a, b) => b[1] - a[1])
+                .slice(0, 5)
+                .map(([position, count]) => [position, count.toString()]);
+            
+            doc.setFontSize(14);
+            doc.setTextColor(90, 74, 58);
+            doc.text('Top 5 Positions Applied For', margin, yPos);
+            yPos += 10;
+            
+            doc.setFontSize(10);
+            doc.autoTable({
+                startY: yPos,
+                head: [['Position', 'Count']],
+                body: topPositions,
+                margin: { left: margin, right: margin },
+                theme: 'grid',
+                headStyles: { fillColor: [168, 153, 124] },
+                styles: { fontSize: 9 }
+            });
+            
+            // Footer
+            doc.setFontSize(8);
+            doc.setTextColor(100, 100, 100);
+            doc.text('Generated by 7S IQ Private Limited Job Application System', pageWidth / 2, doc.internal.pageSize.getHeight() - 10, { align: 'center' });
+            
+            // Save the PDF
+            doc.save(`Summary_Report_${new Date().toISOString().slice(0, 10)}.pdf`);
+            
+            showDbStatus('Summary report PDF generated', true);
+        }
+        
+        // Delete application
+        function deleteApplication(id) {
+            if (confirm('Are you sure you want to delete this application? This action cannot be undone.')) {
+                if (deleteApplicationById(id)) {
+                    showDbStatus('Application deleted successfully', true);
+                    renderApplicationsList();
+                } else {
+                    showDbStatus('Error deleting application', false);
+                }
+            }
+        }
+        
+        // Page navigation
+        document.querySelectorAll('.page-indicator').forEach(indicator => {
+            indicator.addEventListener('click', function() {
+                const pageNum = this.getAttribute('data-page');
+                
+                // Update active page indicator
+                document.querySelectorAll('.page-indicator').forEach(ind => {
+                    ind.classList.remove('active');
+                });
+                this.classList.add('active');
+                
+                // Show selected page
+                document.querySelectorAll('.form-page').forEach(page => {
+                    page.classList.remove('active');
+                });
+                document.getElementById(`page${pageNum}`).classList.add('active');
+            });
+        });
+        
+        // Next page button
+        document.getElementById('nextPage').addEventListener('click', function() {
+            document.querySelector('.page-indicator[data-page="1"]').classList.remove('active');
+            document.querySelector('.page-indicator[data-page="2"]').classList.add('active');
+            
+            document.getElementById('page1').classList.remove('active');
+            document.getElementById('page2').classList.add('active');
+            
+            // Scroll to top
+            window.scrollTo({ top: 0, behavior: 'smooth' });
+        });
+        
+        // Previous page button
+        document.getElementById('prevPage').addEventListener('click', function() {
+            document.querySelector('.page-indicator[data-page="2"]').classList.remove('active');
+            document.querySelector('.page-indicator[data-page="1"]').classList.add('active');
+            
+            document.getElementById('page2').classList.remove('active');
+            document.getElementById('page1').classList.add('active');
+            
+            // Scroll to top
+            window.scrollTo({ top: 0, behavior: 'smooth' });
+        });
+        
+        // Add row to tables
+        function addTableRow(tableBodyId, columns) {
+            const tbody = document.getElementById(tableBodyId);
+            const newRow = document.createElement('tr');
+            
+            columns.forEach(placeholder => {
+                const td = document.createElement('td');
+                const input = document.createElement('input');
+                input.type = 'text';
+                input.className = 'form-control';
+                input.placeholder = placeholder;
+                td.appendChild(input);
+                newRow.appendChild(td);
+            });
+            
+            tbody.appendChild(newRow);
+        }
+        
+        // Add education row
+        document.getElementById('addEducation').addEventListener('click', function() {
+            addTableRow('educationBody', ['Degree / Course', 'University / Institute', 'Year', 'Grade', 'City']);
+        });
+        
+        // Add employment row
+        document.getElementById('addEmployment').addEventListener('click', function() {
+            addTableRow('employmentBody', ['Company', 'Position', 'Year', 'Reason for leaving']);
+        });
+        
+        // Add skill row
+        document.getElementById('addSkill').addEventListener('click', function() {
+            addTableRow('skillsBody', ['Skill / Training', 'Level', 'Year', 'Institute']);
+        });
+        
+        // Add family row
+        document.getElementById('addFamily').addEventListener('click', function() {
+            addTableRow('familyBody', ['Name', 'Relationship', 'Occupation']);
+        });
+        
+        // Add emergency contact row
+        document.getElementById('addEmergency').addEventListener('click', function() {
+            addTableRow('emergencyBody', ['Name', 'Relationship', 'Occupation', 'Qualification', 'City']);
+        });
+        
+        // Collect all form data
+        function collectFormData() {
+            // Basic form data
+            const formData = {
+                applicationDate: document.getElementById('applicationDate').value,
+                position: document.getElementById('position').value,
+                employmentType: document.querySelector('input[name="employmentType"]:checked').value,
+                fullName: document.getElementById('fullName').value,
+                nationality: document.getElementById('nationality').value,
+                address: document.getElementById('address').value,
+                phone: document.getElementById('phone').value,
+                email: document.getElementById('email').value,
+                dob: document.getElementById('dob').value,
+                bloodGroup: document.getElementById('bloodGroup').value,
+                yearsOfWork: document.getElementById('yearsOfWork').value,
+                maritalStatus: document.querySelector('input[name="maritalStatus"]:checked').value,
+                
+                // Education data
+                education: [],
+                employment: [],
+                skills: [],
+                family: [],
+                emergencyContacts: [],
+                
+                // Joining details
+                joiningDate: document.getElementById('joiningDate').value,
+                fees: document.getElementById('fees').value,
+                firstInstallment: document.getElementById('firstInstallment').value,
+                secondInstallment: document.getElementById('secondInstallment').value,
+                thirdInstallment: document.getElementById('thirdInstallment').value,
+                companyName: document.getElementById('companyName').value,
+                receivingPerson: document.getElementById('receivingPerson').value,
+                receivingSignature: document.getElementById('receivingSignature').value,
+                hrSignature: document.getElementById('hrSignature').value
+            };
+            
+            // Collect education data
+            document.querySelectorAll('#educationBody tr').forEach(row => {
+                const inputs = row.querySelectorAll('input');
+                if (inputs[0].value.trim() !== '') {
+                    formData.education.push({
+                        degree: inputs[0].value,
+                        university: inputs[1].value,
+                        year: inputs[2].value,
+                        grade: inputs[3].value,
+                        city: inputs[4].value
+                    });
+                }
+            });
+            
+            // Collect employment data
+            document.querySelectorAll('#employmentBody tr').forEach(row => {
+                const inputs = row.querySelectorAll('input');
+                if (inputs[0].value.trim() !== '') {
+                    formData.employment.push({
+                        company: inputs[0].value,
+                        position: inputs[1].value,
+                        year: inputs[2].value,
+                        reasonForLeaving: inputs[3].value
+                    });
+                }
+            });
+            
+            // Collect skills data
+            document.querySelectorAll('#skillsBody tr').forEach(row => {
+                const inputs = row.querySelectorAll('input');
+                if (inputs[0].value.trim() !== '') {
+                    formData.skills.push({
+                        skill: inputs[0].value,
+                        level: inputs[1].value,
+                        year: inputs[2].value,
+                        institute: inputs[3].value
+                    });
+                }
+            });
+            
+            // Collect family data
+            document.querySelectorAll('#familyBody tr').forEach(row => {
+                const inputs = row.querySelectorAll('input');
+                if (inputs[0].value.trim() !== '') {
+                    formData.family.push({
+                        name: inputs[0].value,
+                        relationship: inputs[1].value,
+                        occupation: inputs[2].value
+                    });
+                }
+            });
+            
+            // Collect emergency contact data
+            document.querySelectorAll('#emergencyBody tr').forEach(row => {
+                const inputs = row.querySelectorAll('input');
+                if (inputs[0].value.trim() !== '') {
+                    formData.emergencyContacts.push({
+                        name: inputs[0].value,
+                        relationship: inputs[1].value,
+                        occupation: inputs[2].value,
+                        qualification: inputs[3].value,
+                        city: inputs[4].value
+                    });
+                }
+            });
+            
+            return formData;
+        }
+        
+        // Form validation
+        function validateForm(formData) {
+            // Check required fields
+            if (!formData.fullName.trim()) {
+                return 'Full name is required';
+            }
+            if (!formData.email.trim()) {
+                return 'Email address is required';
+            }
+            if (!formData.phone.trim()) {
+                return 'Phone number is required';
+            }
+            if (!formData.position.trim()) {
+                return 'Position is required';
+            }
+            
+            // Simple email validation
+            const emailRegex = /^[^\s@]+@[^\s@]+\.[^\s@]+$/;
+            if (!emailRegex.test(formData.email)) {
+                return 'Please enter a valid email address';
+            }
+            
+            return null; // No errors
+        }
+        
+        // Submit form
+        document.getElementById('submitForm').addEventListener('click', function() {
+            const formData = collectFormData();
+            const validationError = validateForm(formData);
+            
+            if (validationError) {
+                showDbStatus(validationError, false);
+                return;
+            }
+            
+            // Save to database
+            const success = saveApplication(formData);
+            
+            if (success) {
+                showDbStatus('Application submitted successfully! Your application has been saved to the database.', true);
+                
+                // Refresh applications list
+                renderApplicationsList();
+                
+                // Reset form (optional)
+                // document.querySelector('form').reset();
+            } else {
+                showDbStatus('Error saving application. Please try again.', false);
+            }
+        });
+        
+        // Refresh database view
+        document.getElementById('refreshDb').addEventListener('click', function() {
+            renderApplicationsList();
+            showDbStatus('Database view refreshed.', true);
+        });
+        
+        // Clear database
+        document.getElementById('clearDb').addEventListener('click', function() {
+            if (confirm('Are you sure you want to clear all applications from the database? This action cannot be undone.')) {
+                clearDatabase();
+                renderApplicationsList();
+                showDbStatus('All applications cleared from database.', true);
+            }
+        });
+        
+        // PDF export buttons
+        document.getElementById('exportSelectedPDF').addEventListener('click', generateSelectedPDF);
+        document.getElementById('exportAllPDF').addEventListener('click', generateAllPDF);
+        document.getElementById('exportSummaryPDF').addEventListener('click', generateSummaryReport);
+        
+        // Select all checkbox
+        document.getElementById('selectAllApps').addEventListener('change', function() {
+            const checkboxes = document.querySelectorAll('.app-checkbox');
+            checkboxes.forEach(cb => cb.checked = this.checked);
+        });
+        
+        // Initialize the application
+        document.addEventListener('DOMContentLoaded', function() {
+            // Initialize database
+            initDatabase();
+            
+            // Set today's date as default for application date
+            const today = new Date().toISOString().split('T')[0];
+            document.getElementById('applicationDate').value = today;
+            
+            // Render existing applications
+            renderApplicationsList();
+            
+            // Show a welcome message
+            setTimeout(() => {
+                showDbStatus('Job application form ready. Fill in your details and submit to store in the database.', true);
+            }, 1000);
+        });
+    </script>
+</body>
+</html>
