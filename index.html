@@ -423,6 +423,21 @@
         <header class="app-header">
             <h1>7S IQ PRIVATE LIMITED</h1>
             <p>Application Form</p>
+            <a href="admin.html" class="admin-link" style="
+                position: absolute;
+                top: 20px;
+                right: 20px;
+                background-color: #7a6a5a;
+                color: white;
+                padding: 8px 16px;
+                border-radius: 4px;
+                text-decoration: none;
+                font-size: 14px;
+                font-weight: 600;
+                transition: background-color 0.3s;
+            ">
+                <i class="fas fa-crown"></i> Admin Dashboard
+            </a>
         </header>
 
         <div class="db-status" id="dbStatus"></div>
@@ -452,12 +467,12 @@
                     
                     <div class="form-row">
                         <div class="form-group">
-                            <label>Employment Type</label>
+                            <label>Role Type</label>
                             <div class="radio-group">
-                                <div class="radio-option">
+                                <!-- <div class="radio-option">
                                     <input type="radio" id="fullTime" name="employmentType" value="Full-Time" checked>
                                     <label for="fullTime">Full-Time</label>
-                                </div>
+                                </div> -->
                                 <div class="radio-option">
                                     <input type="radio" id="course" name="employmentType" value="Course">
                                     <label for="course">Course</label>
@@ -486,8 +501,12 @@
                     
                     <div class="form-row">
                         <div class="form-group">
-                            <label for="address">Address</label>
-                            <input type="text" id="address" class="form-control" placeholder="Enter full address">
+                            <label for="currentAddress">Current Address</label>
+                            <input type="text" id="currentAddress" class="form-control" placeholder="Enter full address">
+                        </div>
+                        <div class="form-group">
+                            <label for="permanentAddress">Permanent Address</label>
+                            <input type="text" id="permanentAddress" class="form-control" placeholder="Enter full address">
                         </div>
                     </div>
                     
@@ -495,6 +514,10 @@
                         <div class="form-group">
                             <label for="phone">Phone</label>
                             <input type="tel" id="phone" class="form-control" placeholder="Enter phone number">
+                        </div>
+                        <div class="form-group">
+                            <label for="alternativePhone">Alternative Phone</label>
+                            <input type="tel" id="alternativePhone" class="form-control" placeholder="Enter alternative phone number">
                         </div>
                         <div class="form-group">
                             <label for="email">Email</label>
@@ -509,7 +532,7 @@
                     <div class="form-row">
                         <div class="form-group">
                             <label for="bloodGroup">Blood Group</label>
-                            <select id="bloodGroup" class="form-control">
+                            <!-- <select id="bloodGroup" class="form-control">
                                 <option value="">Select blood group</option>
                                 <option value="A+">A+</option>
                                 <option value="A-">A-</option>
@@ -519,7 +542,9 @@
                                 <option value="O-">O-</option>
                                 <option value="AB+">AB+</option>
                                 <option value="AB-">AB-</option>
-                            </select>
+                            </select> -->
+                                <td><input type="text" class="form-control" placeholder="Blood Group"></td>
+
                         </div>
                         <div class="form-group">
                             <label for="yearsOfWork">Years of Work Experience</label>
@@ -743,18 +768,18 @@
         </div>
 
         <div class="company-info">
-            <p><strong>Attach your resume and portfolio to this job application form.</strong></p>
+            <p><strong>Give all the necessary information correctly.</strong></p>
             <p>Send it via email or hand it over to the Human Resource Office at:</p>
             <p>No 20, 6<sup>th</sup> school street, jafferkhanpet, chennai-600083</p>
             <p>Phone: +91 7397593704 | Email: info@7siq.com | Website: www.7siq.com</p>
         </div>
 
         <!-- Database Panel for viewing stored applications -->
-        <div class="database-panel">
-            <h3><i class="fas fa-database"></i> Database - Stored Applications (Admin Panel)</h3>
+        <!-- <div class="database-panel"> -->
+            <!-- <h3><i class="fas fa-database"></i> Database - Stored Applications (Admin Panel)</h3> -->
             
             <!-- PDF Export Controls -->
-            <div class="pdf-controls">
+            <!-- <div class="pdf-controls">
                 <h4><i class="fas fa-file-pdf"></i> PDF Export Options</h4>
                 <div class="select-all">
                     <input type="checkbox" id="selectAllApps">
@@ -774,13 +799,13 @@
                         <i class="fas fa-eye"></i> View Details
                     </button>
                 </div>
-            </div>
+            </div> -->
             
-            <div class="applications-list" id="applicationsList">
-                <!-- Applications will be loaded here -->
-            </div>
+            <!-- <div class="applications-list" id="applicationsList">
+                Applications will be loaded here
+            </div> -->
             
-            <div class="action-buttons">
+            <!-- <div class="action-buttons">
                 <button type="button" class="btn btn-secondary" id="refreshDb">
                     <i class="fas fa-sync-alt"></i> Refresh Database View
                 </button>
@@ -790,8 +815,8 @@
                 <button type="button" class="btn btn-secondary" id="clearDb">
                     <i class="fas fa-trash"></i> Clear All Applications
                 </button>
-            </div>
-        </div>
+            </div> -->
+        <!-- </div> -->
     </div>
 
     <script>
@@ -1066,7 +1091,9 @@
                 ['Full Name', app.fullName || 'N/A'],
                 ['Email', app.email || 'N/A'],
                 ['Phone', app.phone || 'N/A'],
-                ['Address', app.address || 'N/A'],
+                ['Alternative Phone', app.alternativePhone || 'N/A'],
+                ['Current Address', app.currentAddress || 'N/A'],
+                ['Permanent Address', app.permanentAddress || 'N/A'],
                 ['Date of Birth', app.dob || 'N/A'],
                 ['Nationality', app.nationality || 'N/A'],
                 ['Blood Group', app.bloodGroup || 'N/A'],
@@ -1531,8 +1558,10 @@
                 employmentType: document.querySelector('input[name="employmentType"]:checked').value,
                 fullName: document.getElementById('fullName').value,
                 nationality: document.getElementById('nationality').value,
-                address: document.getElementById('address').value,
+                currentAddress: document.getElementById('currentAddress').value,
+                permanentAddress: document.getElementById('permanentAddress').value,
                 phone: document.getElementById('phone').value,
+                alternativePhone: document.getElementById('alternativePhone').value,
                 email: document.getElementById('email').value,
                 dob: document.getElementById('dob').value,
                 bloodGroup: document.getElementById('bloodGroup').value,
